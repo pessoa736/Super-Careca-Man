@@ -3,6 +3,7 @@ import { gravity, TileSize } from "./variaveis de mundo.js";
 import { platforms, checkCollision } from "./plataformas.js";
 import { canvas, ctx } from "./canva.js";
 import { keys } from "./controle.js";
+import Sprite from "./sprites.js";
 
 function around(n, int) {
     return parseInt(n / int) * int;
@@ -31,24 +32,18 @@ class Player {
         this.onGround = false;
         this.sprites = {
             idle: [
-                new Image(this.size.x, this.size.y),
-                new Image(this.size.x, this.size.y),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
             ],
             walk: [
-                new Image(this.size.x, this.size.y),
-                new Image(this.size.x, this.size.y),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
             ],
             junping: [
-                new Image(this.size.x, this.size.y),
-                new Image(this.size.x, this.size.y),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
             ],
         }
-        this.sprites.idle[0].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/careca/careca_parado_1.png';
-        this.sprites.idle[1].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/src/sprites/careca/careca_parado_2.png';
-        this.sprites.walk[0].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/src/sprites/careca/careca_parado_1.png';
-        this.sprites.walk[1].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/src/sprites/careca/careca_parado_2.png';
-        this.sprites.junping[0].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/src/sprites/careca/careca_pulando_1.png';
-        this.sprites.junping[1].src = 'https://github.com/pessoa736/Super-Careca-Man/tree/main/docs/src/sprites/careca/careca_pulando_2.png';
         this.sprites.junpingtime = 0;
     }
     update(){
@@ -89,33 +84,26 @@ class Player {
         // da update na possiçao do player
         this.pos = this.pos.add(this.vel);
     }
-    draw(time){
+    draw(ctx, time){
         let spriteTime = parseInt(time/15) % 2;
-
+        let spriteTime2 = parseInt((this.sprites.junpingtime/(this.sprites.junpingtime+1))+0.4) % 2;
+        
         let spriteScaleX = this.vel.x < 0?  -(this.size.x) : this.size.x;
         let spritePosX = this.vel.x < 0?  -(this.pos.x) : this.pos.x ;
+
         ctx.save();
         
         ctx.scale(normalize(this.vel.x), 1);
        
         if(Math.abs(parseInt(this.vel.y-gravity))>0){
-            ctx.drawImage(
-                this.sprites.junping[parseInt((this.sprites.junpingtime/(this.sprites.junpingtime+1))+0.4)],      
-                spritePosX, this.pos.y, spriteScaleX, this.size.y
-            ); 
+            this.sprites.junping[spriteTime2].draw(ctx, vec2(spritePosX, this.pos.y));
             this.sprites.junpingtime++;
         } 
         else if (Math.abs(this.vel.x) == 0) {
-            ctx.drawImage(
-                this.sprites.idle[spriteTime],      
-                spritePosX, this.pos.y, spriteScaleX, this.size.y
-            );
+            this.sprites.idle[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y));
         }
         else if (Math.abs(this.vel.x) > 0) {
-            ctx.drawImage(
-                this.sprites.walk[spriteTime],      
-                spritePosX, this.pos.y, spriteScaleX, this.size.y
-            );
+            this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y));
         }
         ctx.restore();
 

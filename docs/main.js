@@ -39,20 +39,20 @@ function vinheta(){
     ctx.restore()
 }
 
-function draw() {
+function draw(ctx) {
     limparTela()
     vinheta()
     
     cam.draw()
     drawPlatforms();
-    plr.draw(time);
+    plr.draw(ctx, time);
 }
 
 
 function loop() {
     updateCanvas();
     update();
-    draw();
+    draw(ctx);
     requestAnimationFrame(loop);
 }
 
