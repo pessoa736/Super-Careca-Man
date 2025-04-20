@@ -23,7 +23,7 @@ class Camera {
         this.pos.x = this.pos.x*(1-t)+tx*t
         this.pos.y = this.pos.y*(1-t)+ty*t
     }
-    draw(){
+    draw(ctx, canvas){
         let scaX = 8*canvas.width/(240*TileSize)
         let scaY = 8*canvas.height/(136*TileSize)
         console.log(scaX, scaY)

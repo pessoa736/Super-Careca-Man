@@ -4,6 +4,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: "comic sans ms", "Comic Sans MS", cursive, sans-serif;
 }
 
 body {
@@ -37,4 +38,11 @@ main{
     justify-self: center;
     justify-content: center;
 }
-header {}
+header {
+    padding: 1em 0;
+    margin: 1%;
+    text-align: center;
+    background: #444;
+    border-radius: 8px ;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}

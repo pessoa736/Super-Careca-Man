@@ -108,8 +108,6 @@ class Player {
         let spritePosX = this.directionX*this.pos.x ;
 
         ctx.save();
-        //ctx.fillStyle = this.color;
-        //ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
         ctx.scale(this.directionX, 1);
        
         if(Math.abs(parseInt(this.vel.y)) != 0){
