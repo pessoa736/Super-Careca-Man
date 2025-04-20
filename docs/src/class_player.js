@@ -1,8 +1,8 @@
-import vec2 from "/game/src/vec2.js";
-import { gravity, TileSize } from "/game/src/variaveis de mundo.js";
-import { platforms, checkCollision } from "/game/src/plataformas.js";
-import { canvas, ctx } from "/game/src/canva.js";
-import { keys } from "/game/src/controle.js";
+import vec2 from "/src/vec2.js";
+import { gravity, TileSize } from "/src/variaveis de mundo.js";
+import { platforms, checkCollision } from "/src/plataformas.js";
+import { canvas, ctx } from "/src/canva.js";
+import { keys } from "/src/controle.js";
 
 function around(n, int) {
     return parseInt(n / int) * int;
@@ -43,12 +43,12 @@ class Player {
                 new Image(this.size.x, this.size.y),
             ],
         }
-        this.sprites.idle[0].src = '/game/src/sprites/careca/careca_parado_1.png';
-        this.sprites.idle[1].src = '/game/src/sprites/careca/careca_parado_2.png';
-        this.sprites.walk[0].src = '/game/src/sprites/careca/careca_parado_1.png';
-        this.sprites.walk[1].src = '/game/src/sprites/careca/careca_parado_2.png';
-        this.sprites.junping[0].src = '/game/src/sprites/careca/careca_pulando_1.png';
-        this.sprites.junping[1].src = '/game/src/sprites/careca/careca_pulando_2.png';
+        this.sprites.idle[0].src = '/src/sprites/careca/careca_parado_1.png';
+        this.sprites.idle[1].src = '/src/sprites/careca/careca_parado_2.png';
+        this.sprites.walk[0].src = '/src/sprites/careca/careca_parado_1.png';
+        this.sprites.walk[1].src = '/src/sprites/careca/careca_parado_2.png';
+        this.sprites.junping[0].src = '/src/sprites/careca/careca_pulando_1.png';
+        this.sprites.junping[1].src = '/src/sprites/careca/careca_pulando_2.png';
         this.sprites.junpingtime = 0;
     }
     update(){
