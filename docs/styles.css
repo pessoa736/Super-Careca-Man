@@ -1,13 +1,17 @@
 /* styles.css - Estilos básicos */
 
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
     background: #222;
     color: #fff;
     justify-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 h1, h2, h3 {
@@ -24,8 +28,8 @@ a:hover {
 }
 
 main{
-    margin: 5%;
-    padding: 2%;
+    padding-left: 2.5%;
+    padding-top: 2.5%;
     background: #333;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -33,3 +37,4 @@ main{
     justify-self: center;
     justify-content: center;
 }
+header {}
