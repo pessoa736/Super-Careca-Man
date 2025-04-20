@@ -20,16 +20,21 @@ function normalize(n){
 
 
 class Player {
-    constructor(pos = vec2(0, 0), size = vec2(TileSize, TileSize*2), vel = vec2(0,0), speed = 5, jumpPower=7) {
+    constructor(pos = vec2(0, 0), size = vec2(TileSize, TileSize*2), vel = vec2(0,0), speed = 10, jumpPower=7) {
         this.pos = pos;
         this.size = size;
         this.color = '#3498db';
         this.vel = vel,
         this.speed = speed;
+        this.directionX = 1
         this.jumpPower = jumpPower || 10;
         this.onGround = false;
         this.sprites = {
             idle: [
+                new Image(this.size.x, this.size.y),
+                new Image(this.size.x, this.size.y),
+            ],
+            walk: [
                 new Image(this.size.x, this.size.y),
                 new Image(this.size.x, this.size.y),
             ],
@@ -40,14 +45,20 @@ class Player {
         }
         this.sprites.idle[0].src = '/game/src/sprites/careca/careca_parado_1.png';
         this.sprites.idle[1].src = '/game/src/sprites/careca/careca_parado_2.png';
+        this.sprites.walk[0].src = '/game/src/sprites/careca/careca_parado_1.png';
+        this.sprites.walk[1].src = '/game/src/sprites/careca/careca_parado_2.png';
         this.sprites.junping[0].src = '/game/src/sprites/careca/careca_pulando_1.png';
         this.sprites.junping[1].src = '/game/src/sprites/careca/careca_pulando_2.png';
         this.sprites.junpingtime = 0;
     }
     update(){
+        // controle
         this.vel.x = 0;
-        if (keys['ArrowLeft'] || keys['KeyA']) this.vel.x = -this.speed;
-        if (keys['ArrowRight'] || keys['KeyD']) this.vel.x = this.speed;
+        let kl= keys['ArrowLeft'] || keys['KeyA']
+        let kr = keys['ArrowRight'] || keys['KeyD']
+        if (kl && !kr) {this.vel.x = -this.speed; this.directionX = -1} 
+        if (kr && !kl) {this.vel.x = this.speed; this.directionX = 1}
+        if (kr && kl) { this.vel.x = this.vel.x*(0.05);}
 
         if ((keys['ArrowUp'] || keys['KeyW'] || keys['Space']) && this.onGround) {
             this.vel.y = -this.jumpPower*(1/gravity);
@@ -55,10 +66,10 @@ class Player {
         }
 
         this.vel.y += gravity;
-
-        this.pos = this.pos.add(this.vel);
-
         this.onGround = false;
+
+        
+        //colissão
         if (checkCollision(this.pos.add(vec2(this.vel.x, 0)), this.size)) {
             while (checkCollision(this.pos.add(vec2(sign(this.vel.x), 0)))) {
                 this.pos.x +=sign(this.vel.x); 
@@ -75,7 +86,8 @@ class Player {
             this.sprites.junpingtime = 0;
         }    
        
-
+        // da update na possiçao do player
+        this.pos = this.pos.add(this.vel);
     }
     draw(time){
         let spriteTime = parseInt(time/15) % 2;
@@ -85,16 +97,23 @@ class Player {
         ctx.save();
         
         ctx.scale(normalize(this.vel.x), 1);
-        console.log('vel.x', this.vel.x, 'spriteScaleX', spriteScaleX, 'spritePosX', spritePosX);
-        if(!this.onGround){
+       
+        if(Math.abs(parseInt(this.vel.y-gravity))>0){
             ctx.drawImage(
                 this.sprites.junping[parseInt((this.sprites.junpingtime/(this.sprites.junpingtime+1))+0.4)],      
                 spritePosX, this.pos.y, spriteScaleX, this.size.y
-            );   
+            ); 
+            this.sprites.junpingtime++;
         } 
-        else if (Math.abs(this.vel.x) < 0.5) {
+        else if (Math.abs(this.vel.x) == 0) {
             ctx.drawImage(
                 this.sprites.idle[spriteTime],      
+                spritePosX, this.pos.y, spriteScaleX, this.size.y
+            );
+        }
+        else if (Math.abs(this.vel.x) > 0) {
+            ctx.drawImage(
+                this.sprites.walk[spriteTime],      
                 spritePosX, this.pos.y, spriteScaleX, this.size.y
             );
         }

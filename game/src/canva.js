@@ -2,18 +2,19 @@
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = window.innerWidth*0.8;
-canvas.height = window.innerHeight*0.8;
-canvas.style.position = 'fixed';
 
 let main = document.querySelector('main');
+
+
 main.appendChild(canvas);
 
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function updateCanvas() {
+    main.style.width = parseInt(window.innerWidth)*0.8 + "px"
+    main.style.height =parseInt(window.innerHeight)*0.8 + "px"
+    canvas.width = main.offsetWidth*0.8;
+    canvas.height = main.offsetHeight*0.8;
 }
 
-export { canvas, ctx, resizeCanvas};
+export { canvas, ctx, updateCanvas};
 console.log('Canvas carregado');

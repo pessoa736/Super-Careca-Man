@@ -6,6 +6,8 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #222;
     color: #fff;
+    justify-items: center;
+    justify-content: center;
 }
 
 h1, h2, h3 {
@@ -21,11 +23,13 @@ a:hover {
     text-decoration: underline;
 }
 
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+main{
+    margin: 5%;
+    padding: 2%;
     background: #333;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: relative;
+    justify-self: center;
+    justify-content: center;
 }

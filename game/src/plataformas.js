@@ -4,19 +4,29 @@ import { TileSize } from './variaveis de mundo.js';
 
 
 class Platform {
-    constructor(pos = vec2(0, 0), size = vec2(100, 20)) {
+    constructor(pos = vec2(0, 0)) {
         this.pos = pos.mult(vec2(TileSize, TileSize));
-        this.size = size.mult(vec2(TileSize, TileSize));
+        this.size = vec2(TileSize, TileSize);
     }
+}
+
+function plat(pos){
+    return new Platform(pos)
 }
 
 
 const platforms = [
-    new Platform(vec2(0, 25), vec2(30, 5)) ,
-    new Platform(vec2(25, 15), vec2(3, 8)) ,
-    new Platform(vec2(0, 260), vec2(80, 80)) ,
-    new Platform(vec2(0, 180), vec2(80, 80)) ,
+    plat(vec2(0, 25)),
+    plat(vec2(25, 15)),
+    plat(vec2(0, 260)),
+    plat(vec2(0, 180)),
 ];
+
+
+for (let i = 0; i<80; i++){
+    let pos = vec2(i, 25)
+    platforms.push(plat(pos))
+}
 
 function checkCollision(pos, size = vec2(TileSize, TileSize)) {
     for (const plat of platforms) {
@@ -34,10 +44,12 @@ function checkCollision(pos, size = vec2(TileSize, TileSize)) {
 
 
 function drawPlatforms(){
+    ctx.save()
     ctx.fillStyle = '#27ae60';
     for (const plat of platforms) {
         ctx.fillRect(plat.pos.x, plat.pos.y, plat.size.x, plat.size.y);
     }
+    ctx.restore()
 }
 
 export {platforms, drawPlatforms, checkCollision};
