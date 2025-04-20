@@ -43,12 +43,12 @@ class Player {
                 new Image(this.size.x, this.size.y),
             ],
         }
-        this.sprites.idle[0].src = './src/sprites/careca/careca_parado_1.png';
-        this.sprites.idle[1].src = './src/sprites/careca/careca_parado_2.png';
-        this.sprites.walk[0].src = './src/sprites/careca/careca_parado_1.png';
-        this.sprites.walk[1].src = './src/sprites/careca/careca_parado_2.png';
-        this.sprites.junping[0].src = './src/sprites/careca/careca_pulando_1.png';
-        this.sprites.junping[1].src = './src/sprites/careca/careca_pulando_2.png';
+        this.sprites.idle[0].src = '/src/sprites/careca/careca_parado_1.png';
+        this.sprites.idle[1].src = '/src/sprites/careca/careca_parado_2.png';
+        this.sprites.walk[0].src = '/src/sprites/careca/careca_parado_1.png';
+        this.sprites.walk[1].src = '/src/sprites/careca/careca_parado_2.png';
+        this.sprites.junping[0].src = '/src/sprites/careca/careca_pulando_1.png';
+        this.sprites.junping[1].src = '/src/sprites/careca/careca_pulando_2.png';
         this.sprites.junpingtime = 0;
     }
     update(){
