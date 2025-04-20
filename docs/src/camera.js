@@ -16,8 +16,7 @@ class Camera {
         let tx = this.target.x-this.size.x*1.5
         let ty = this.target.y-this.size.y*2
 
-        tx = Math.max(tx, 0)
-        tx = Math.min(tx, 240*136)
+        tx = Math.max(Math.min(tx, 30*8*32), 0)
         ty = Math.min(ty, 15)
 
         this.pos.x = this.pos.x*(1-t)+tx*t
@@ -26,7 +25,6 @@ class Camera {
     draw(ctx, canvas){
         let scaX = 8*canvas.width/(240*TileSize)
         let scaY = 8*canvas.height/(136*TileSize)
-        console.log(scaX, scaY)
         ctx.scale(scaX, scaY)
         ctx.translate(-this.pos.x, -this.pos.y)
     }

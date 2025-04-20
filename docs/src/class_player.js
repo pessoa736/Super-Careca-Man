@@ -1,11 +1,10 @@
 import vec2 from "./vec2.js";
 import { gravity, TileSize } from "./variaveis de mundo.js";
 import { platforms, checkCollision } from "./plataformas.js";
-import { canvas, ctx } from "./canva.js";
 import { keys } from "./controle.js";
 import Sprite from "./sprites.js";
-import {lerp, around} from "./utils.js";
-
+import {lerp, around, random} from "./utils.js";
+import * as Particle from "./particles.js";
 
 
 function normalize(n){
@@ -23,6 +22,11 @@ class Player {
         this.jumpPower = jumpPower || 10;
         this.onGround = false;
         this.alive = true;
+        this.inputs = {
+            left: false,
+            right: false,
+            jump: false,
+        }
         this.sprites = {
             idle: [
                 new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
@@ -42,35 +46,27 @@ class Player {
         this.sprites.junpingtime = 0;
         this.intialVars = this
     }
-    reset() {
-        this.pos = this.intialVars.pos;
-        this.vel = this.intialVars.vel;
-        this.speed = this.intialVars.speed;
-        this.directionX = this.intialVars.directionX;
-        this.jumpPower = this.intialVars.jumpPower;
-        this.onGround = this.intialVars.onGround;
-        this.alive = this.intialVars.alive;
-        this.sprites = this.intialVars.sprites;
-        this.sprites.junpingtime = 0;
-        this.size = this.intialVars.size;
-    }
-    update(){
-        // controle
+    reset() {}
+    update(time){
         
-        let kl= keys['ArrowLeft'] || keys['KeyA']
-        let kr = keys['ArrowRight'] || keys['KeyD']
+        // controle
+        this.inputs.left = keys['ArrowLeft'] || keys['KeyA']
+        this.inputs.right = keys['ArrowRight'] || keys['KeyD']
+        this.inputs.jump = keys['ArrowUp'] || keys['KeyW'] || keys['Space']
 
-        if (kl && !kr) {
+        if (this.inputs.left && !this.inputs.right) {
             this.vel.x =  -this.speed; 
             this.directionX = -1
-        }else if (kr && !kl) {
+        }
+        else if (this.inputs.right && !this.inputs.left) {
             this.vel.x = this.speed; 
             this.directionX = 1
-        } else { 
+        } 
+        else { 
             this.vel.x = lerp(around(this.vel.x, 0.01), 0, 0.2)
         }
 
-        if ((keys['ArrowUp'] || keys['KeyW'] || keys['Space']) && this.onGround) {
+        if ( this.inputs.jump && this.onGround) {
             this.vel.y = -this.jumpPower*(1/gravity);
             this.onGround = false;
         }
@@ -99,6 +95,11 @@ class Player {
         // da update na possiçao do player
         this.pos = this.pos.add(this.vel);
 
+        
+
+        if (this.pos.y >= 15*TileSize) {
+            this.alive = false;
+        }
 
         if (!this.alive){
             this.reset()
@@ -125,7 +126,35 @@ class Player {
             this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
         }
         ctx.restore();
+        let isRunning = parseInt(Math.abs(this.vel.x)) > 0 && this.onGround && time % 4 == 0
+        let isJumping = parseInt(Math.abs(this.vel.y)) != 0 && this.onGround
+        if (isRunning) {
+            for (let i = 0; i < 5; i++) {
+                
+                let pos = this.pos.add(
+                    vec2(
+                        this.size.x/2 - this.size.x*this.directionX/2, 
+                        this.size.y
+                    )
+                )
+    
+                let vel = vec2(
+                    random(-1, 1)-this.vel.x/4, 
+                    random(-1,1)-this.vel.y
+                )
+    
+                let size = random(9, 13)
+    
+                Particle.addParticle(
+                    pos, 
+                    vel, 
+                    vec2(size, size),
+                    "rgba(255, 255, 255, 0.5)", 
+                    random(0.25, 0.75)
+                )
 
+            }
+        } 
     }
 }
 

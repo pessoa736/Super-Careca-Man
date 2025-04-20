@@ -1,5 +1,6 @@
 import { canvas } from './src/canva.js';
-import {platforms, drawPlatforms}  from './src/plataformas.js';
+import {drawPlatforms}  from './src/plataformas.js';
+import  *  as Particle from './src/particles.js';
 
 function limparTela(ctx, canvas) {
     ctx.fillStyle = "#111111";
@@ -30,6 +31,7 @@ function foreground(ctx, canvas, time, cam, plr) {
     cam.draw(ctx, canvas)
     drawPlatforms();
     plr.draw(ctx, time);
+    Particle.drawParticles(ctx)
     
     ctx.restore()
 }

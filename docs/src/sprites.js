@@ -16,7 +16,6 @@ class Sprite {
       pos.x, pos.y, this.size.x*scale.x, this.size.y*scale.y
     );
     
-    console.log(scale.mult(this.size))
   }
 }
 
