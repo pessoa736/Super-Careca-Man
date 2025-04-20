@@ -4,17 +4,20 @@ const ctx = canvas.getContext('2d');
 
 
 let main = document.querySelector('main');
+main.style.justifyItems = "center"
+main.style.alignItems = "center"
 
 
 main.appendChild(canvas);
 
 
 function updateCanvas() {
-    main.style.width = parseInt(window.innerWidth)*0.8 + "px"
-    main.style.height =parseInt(window.innerHeight)*0.8 + "px"
-    main.style.justifyItems = "center"
-    canvas.width = main.offsetWidth*0.9;
-    canvas.height = main.offsetHeight*0.9;
+    let aspect = 136/240;
+    main.style.width = parseInt(window.innerWidth)*0.75 + "px"
+    main.style.height =parseInt(window.innerWidth*aspect)*0.75 + "px"
+
+    canvas.width = main.offsetWidth - 0.075*main.offsetWidth;
+    canvas.height = main.offsetHeight - 0.15*main.offsetHeight;
 }
 
 export { canvas, ctx, updateCanvas};
