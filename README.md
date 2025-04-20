@@ -22,6 +22,7 @@ O objetivo deste projeto é aplicar conceitos fundamentais de desenvolvimento we
 
 ## Créditos
 
-Projeto desenvolvido por [Seu Nome] para a disciplina de HTML, CSS e JavaScript do curso Técnico em Informática - Grau Técnico.
+Projeto desenvolvido por Davi dos Santos Passos para a disciplina de HTML, CSS e JavaScript do curso Técnico em Informática - Grau Técnico.
 
----
+
+----
