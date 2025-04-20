@@ -1,5 +1,5 @@
-import vec2 from "/src/vec2.js"
-import { ctx, canvas} from "/src/canva.js";
+import vec2 from "./vec2.js"
+import { ctx, canvas} from "./canva.js";
 
 class Camera {
     constructor(pos = vec2()) {

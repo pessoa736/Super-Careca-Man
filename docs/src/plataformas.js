@@ -1,5 +1,5 @@
-import vec2  from '/src/vec2.js';
-import { canvas, ctx } from '/src/canva.js';
+import vec2  from './vec2.js';
+import { canvas, ctx } from './canva.js';
 import { TileSize } from './variaveis de mundo.js';
 
 
