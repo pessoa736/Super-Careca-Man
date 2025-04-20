@@ -14,17 +14,6 @@ function limparTela() {
 }
 
 
-var plr = new Player();
-var cam = new Camera();
-
-function update() {
-    update_keys();
-    cam.setTarget(plr.pos)
-    cam.update()
-    plr.update();
-
-    time = time + 1 ;
-}
 
 function vinheta(){
     ctx.save()
@@ -39,6 +28,18 @@ function vinheta(){
     ctx.restore()
 }
 
+var plr = new Player();
+var cam = new Camera();
+
+function update() {
+    update_keys();
+    cam.setTarget(plr.pos)
+    cam.update()
+    plr.update();
+
+    time = time + 1 ;
+}
+
 function draw(ctx) {
     limparTela()
     vinheta()
@@ -46,6 +47,7 @@ function draw(ctx) {
     cam.draw()
     drawPlatforms();
     plr.draw(ctx, time);
+
 }
 
 
