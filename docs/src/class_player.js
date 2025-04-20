@@ -4,15 +4,11 @@ import { platforms, checkCollision } from "./plataformas.js";
 import { canvas, ctx } from "./canva.js";
 import { keys } from "./controle.js";
 import Sprite from "./sprites.js";
+import {lerp} from "./utils.js";
+
 
 function around(n, int) {
     return parseInt(n / int) * int;
-}
-
-function sign(n) {
-    let a = Math.abs(n);
-    if (a == 0) return 0;
-    return (a-1)/a;
 }
 
 function normalize(n){
@@ -33,27 +29,34 @@ class Player {
         this.sprites = {
             idle: [
                 new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_parado_2.png", this.size),
             ],
             walk: [
                 new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_parado_2.png", this.size),
             ],
             junping: [
-                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_pulando_1.png", this.size),
+                new Sprite("src/sprites/careca/careca_pulando_2.png", this.size),
             ],
         }
         this.sprites.junpingtime = 0;
     }
     update(){
         // controle
-        this.vel.x = 0;
+        
         let kl= keys['ArrowLeft'] || keys['KeyA']
         let kr = keys['ArrowRight'] || keys['KeyD']
-        if (kl && !kr) {this.vel.x = -this.speed; this.directionX = -1} 
-        if (kr && !kl) {this.vel.x = this.speed; this.directionX = 1}
-        if (kr && kl) { this.vel.x = this.vel.x*(0.05);}
+
+        if (kl && !kr) {
+            this.vel.x =  -this.speed; 
+            this.directionX = -1
+        }else if (kr && !kl) {
+            this.vel.x = this.speed; 
+            this.directionX = 1
+        } else { 
+            this.vel.x = lerp(around(this.vel.x, 0.01), 0, 0.1)
+        }
 
         if ((keys['ArrowUp'] || keys['KeyW'] || keys['Space']) && this.onGround) {
             this.vel.y = -this.jumpPower*(1/gravity);
@@ -66,15 +69,15 @@ class Player {
         
         //colissão
         if (checkCollision(this.pos.add(vec2(this.vel.x, 0)), this.size)) {
-            while (checkCollision(this.pos.add(vec2(sign(this.vel.x), 0)))) {
-                this.pos.x +=sign(this.vel.x); 
+            while (checkCollision(this.pos.add(vec2(Math.sign(this.vel.x), 0)))) {
+                this.pos.x +=Math.sign(this.vel.x); 
             }
             this.vel.x = 0;
         }    
 
         if (checkCollision(this.pos.add(vec2(0, this.vel.y)), this.size)) {
-            while (checkCollision(this.pos.add(vec2(0, sign(this.vel.y))))) {
-                this.pos.y +=sign(this.vel.y); 
+            while (checkCollision(this.pos.add(vec2(0, Math.sign(this.vel.y))))) {
+                this.pos.y +=Math.sign(this.vel.y); 
             }
             this.vel.y = 0;
             this.onGround = true;
@@ -88,22 +91,21 @@ class Player {
         let spriteTime = parseInt(time/15) % 2;
         let spriteTime2 = parseInt((this.sprites.junpingtime/(this.sprites.junpingtime+1))+0.4) % 2;
         
-        let spriteScaleX = this.vel.x < 0?  -(this.size.x) : this.size.x;
-        let spritePosX = this.vel.x < 0?  -(this.pos.x) : this.pos.x ;
+        let spritePosX = this.directionX*this.pos.x ;
 
         ctx.save();
         
-        ctx.scale(normalize(this.vel.x), 1);
+        ctx.scale(this.directionX, 1);
        
-        if(Math.abs(parseInt(this.vel.y-gravity))>0){
-            this.sprites.junping[spriteTime2].draw(ctx, vec2(spritePosX, this.pos.y));
+        if(Math.abs(parseInt(this.vel.y)) != 0){
+            this.sprites.junping[spriteTime2].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
             this.sprites.junpingtime++;
         } 
-        else if (Math.abs(this.vel.x) == 0) {
-            this.sprites.idle[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y));
+        else if (parseInt(Math.abs(this.vel.x))==0) {
+            this.sprites.idle[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
         }
         else if (Math.abs(this.vel.x) > 0) {
-            this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y));
+            this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
         }
         ctx.restore();
 

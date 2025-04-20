@@ -10,8 +10,12 @@ class Sprite {
     this.image.src = "https://raw.github.com/pessoa736/Super-Careca-Man/main/docs/" + src;
   }
 
-  draw(ctx, pos) {
-    ctx.drawImage(this.image, pos.x, pos.y, this.size.x, this.size.y);
+  draw(ctx, pos,scale = vec2(1,1)) {
+    ctx.drawImage(this.image, 
+      0,0, this.size.x, this.size.y,
+      pos.x, pos.y, this.size.x*scale.x, this.size.y*scale.y
+    );
+    console.log(scale.mult(this.size))
   }
 }
 

@@ -5,7 +5,7 @@ import { TileSize } from './variaveis de mundo.js';
 
 class Platform {
     constructor(pos = vec2(0, 0)) {
-        this.pos = pos.mult(vec2(TileSize, TileSize));
+        this.pos = pos.mult(vec2(TileSize, TileSize)).around(TileSize);
         this.size = vec2(TileSize, TileSize);
     }
 }
@@ -24,7 +24,7 @@ const platforms = [
 
 
 for (let i = 0; i<80; i++){
-    let pos = vec2(i, 25)
+    let pos = vec2(i, 15)
     platforms.push(plat(pos))
 }
 
