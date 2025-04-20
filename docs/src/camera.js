@@ -13,7 +13,7 @@ class Camera {
     }
     update(){
         let t = 0.05
-        let tx = this.target.x-this.size.x*2
+        let tx = this.target.x-this.size.x*1.5
         let ty = this.target.y-this.size.y*2
 
         tx = Math.max(tx, 0)

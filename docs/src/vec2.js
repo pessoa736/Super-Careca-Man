@@ -30,7 +30,7 @@ class vector2{
     }
     around(t = 0.01){
       let a = this
-      return new vector2(Math.round(a.x/t)*t, Math.round(a.y/t)*t)
+      return new vector2(parseInt(a.x/t)*t, parseInt(a.y/t)*t)
     }
   }
 
