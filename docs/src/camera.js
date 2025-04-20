@@ -1,5 +1,6 @@
 import vec2 from "./vec2.js"
 import { ctx, canvas} from "./canva.js";
+import { TileSize } from "./variaveis de mundo.js";
 
 class Camera {
     constructor(pos = vec2()) {
@@ -9,20 +10,24 @@ class Camera {
     }
     setTarget(target){
         this.target = target
-        console.log(target)
     }
     update(){
         let t = 0.05
         let tx = this.target.x-this.size.x*2
         let ty = this.target.y-this.size.y*2
+
+        tx = Math.max(tx, 0)
+        tx = Math.min(tx, 240*136)
+        ty = Math.min(ty, 15)
+
         this.pos.x = this.pos.x*(1-t)+tx*t
         this.pos.y = this.pos.y*(1-t)+ty*t
-        this.pos.x - Math.min(-this.pos.x, 0)
-        this.pos.y - Math.min(-this.pos.y, 0)
     }
     draw(){
-        let sca = 0.75
-        ctx.scale(sca, sca)
+        let scaX = 8*canvas.width/(240*TileSize)
+        let scaY = 8*canvas.height/(136*TileSize)
+        console.log(scaX, scaY)
+        ctx.scale(scaX, scaY)
         ctx.translate(-this.pos.x, -this.pos.y)
     }
 }
