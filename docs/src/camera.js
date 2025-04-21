@@ -2,25 +2,31 @@ import vec2 from "./vec2.js"
 import { ctx, canvas} from "./canva.js";
 import { TileSize } from "./variaveis de mundo.js";
 
+let cameras = []
+
 class Camera {
     constructor(pos = vec2()) {
         this.pos = pos;
         this.target;
         this.size = vec2(canvas.width, canvas.height)        
     }
-    setTarget(target){
+    setTarget(target = []) { 
         this.target = target
     }
     update(){
-        let t = 0.05
-        let tx = this.target.x-this.size.x*1.5
-        let ty = this.target.y-this.size.y*2
+        if (!this.target) return;
+        this.target.forEach( (target) => {
+            if (!target) return;
+            let t = 0.05
+            let tx = target.pos.x-this.size.x/1.5 + target.vel.x*5
+            let ty = target.pos.y-this.size.y/2- target.vel.y*5
 
-        tx = Math.max(Math.min(tx, 30*8*32), 0)
-        ty = Math.min(ty, 15)
+            tx = Math.max(Math.min(tx, 30*8*32), 0)
+            ty = Math.min(ty, 15)
 
-        this.pos.x = this.pos.x*(1-t)+tx*t
-        this.pos.y = this.pos.y*(1-t)+ty*t
+
+            this.pos = this.pos.lerp(vec2(tx, ty), t)
+        })
     }
     draw(ctx, canvas){
         let scaX = 8*canvas.width/(240*TileSize)
@@ -28,8 +34,48 @@ class Camera {
         ctx.scale(scaX, scaY)
         ctx.translate(-this.pos.x, -this.pos.y)
     }
+    remove() {
+        const index = cameras.indexOf(this);
+        cameras.splice(index, 1);
+    }
 }
 
-export default Camera;
+function add(pos = vec2()) {
+    if (cameras.length > 0) {
+        cameras[0].remove()
+    }
+    const camera = new Camera(pos);
+    cameras.push(camera);
+}
+
+function setTarget( target){
+    cameras[0].setTarget(target)
+}
+
+function update(){
+    cameras.forEach(camera => {
+        camera.update()
+    });
+}
+
+function draw(ctx, canvas){
+    cameras.forEach(camera => {
+        camera.draw(ctx, canvas)
+    });
+}
+
+function removeAll() {
+    cameras.forEach(camera => {
+        camera.remove()
+    });
+    if (cameras.length > 0) {
+        cameras=[];
+    }
+}
+
+
+
+
+export {add, setTarget, update, draw, removeAll};
 
 console.log('modulo da classe da camera carregada');

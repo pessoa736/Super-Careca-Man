@@ -1,8 +1,8 @@
 
 class vector2{
     constructor(x = 0, y = 0){
-      this.x = parseInt(x)
-      this.y = parseInt(y)
+      this.x = x
+      this.y = y
     }
     add(b){
       let a = this

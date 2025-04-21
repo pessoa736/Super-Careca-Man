@@ -1,20 +1,17 @@
-import Player from './src/class_player.js';
-import Camera from './src/camera.js';
 import draw from './draw.js';
+import init from './init.js';
 import { canvas, ctx, updateCanvas } from './src/canva.js';
-import {update, time} from './update.js';
+import {update} from './update.js';
 
 
-var plr = new Player();
-var cam = new Camera();
-
-
+let timeInit = 0
 
 
 function loop() {
+    if (timeInit == 0) { init(); timeInit++}
     updateCanvas();
-    update(cam, plr);
-    draw(ctx, canvas, time, cam, plr);
+    update();
+    draw(ctx, canvas);
     requestAnimationFrame(loop);
 }
 

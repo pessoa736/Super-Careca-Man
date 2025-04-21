@@ -1,16 +1,19 @@
 import vec2 from "./vec2.js";
-import { gravity, TileSize } from "./variaveis de mundo.js";
+import { gravity, TileSize, setPause, getPause} from "./variaveis de mundo.js";
 import { platforms, checkCollision } from "./plataformas.js";
-import { keys } from "./controle.js";
+import * as controle from "./controle.js";
 import Sprite from "./sprites.js";
 import {lerp, around, random} from "./utils.js";
 import * as Particle from "./particles.js";
+import { time } from "../update.js";
+import init from "../init.js";
 
 
 function normalize(n){
     return Math.abs(n) / n;
 }
 
+let players = [];
 
 class Player {
     constructor(pos = vec2(0, 0), size = vec2(TileSize, TileSize*2), vel = vec2(0,0), speed = 8, jumpPower=7) {
@@ -47,13 +50,18 @@ class Player {
         this.intialVars = this
     }
     reset() {}
-    update(time){
-        
+    update(){
+        let keys = controle.getkeys();
+
         // controle
         this.inputs.left = keys['ArrowLeft'] || keys['KeyA']
         this.inputs.right = keys['ArrowRight'] || keys['KeyD']
         this.inputs.jump = keys['ArrowUp'] || keys['KeyW'] || keys['Space']
-
+        this.inputs.esc = keys["Escape"] || keys['KeyP']
+        
+        if (this.inputs.esc && time%5 == 0) {
+            setPause(true)
+        }
         if (this.inputs.left && !this.inputs.right) {
             this.vel.x =  -this.speed; 
             this.directionX = -1
@@ -87,8 +95,10 @@ class Player {
             while (checkCollision(this.pos.add(vec2(0, Math.sign(this.vel.y))))) {
                 this.pos.y -=Math.sign(this.vel.y); 
             }
+            if (this.vel.y >= 0) {
+                this.onGround = true;
+            }
             this.vel.y = 0;
-            this.onGround = true;
             this.sprites.junpingtime = 0;
         }    
        
@@ -102,7 +112,8 @@ class Player {
         }
 
         if (!this.alive){
-            this.reset()
+            init()
+            this.remove();
         }
     }
     draw(ctx, time){
@@ -126,15 +137,15 @@ class Player {
             this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
         }
         ctx.restore();
-        let isRunning = parseInt(Math.abs(this.vel.x)) > 0 && this.onGround && time % 4 == 0
-        let isJumping = parseInt(Math.abs(this.vel.y)) != 0 && this.onGround
-        if (isRunning) {
-            for (let i = 0; i < 5; i++) {
+        let isRunning = parseInt(Math.abs(this.vel.x)) > 0 && this.onGround && time % 6 == 0
+        let isJumping = this.inputs.jump && this.onGround
+        if (isRunning || isJumping) {
+            for (let i = 0; i < random(5, 20); i++) {
                 
                 let pos = this.pos.add(
                     vec2(
-                        this.size.x/2 - this.size.x*this.directionX/2, 
-                        this.size.y
+                        this.size.x/2 - this.size.x*this.directionX/2 + random(-8, 8),
+                        this.size.y + random(-8, 8)
                     )
                 )
     
@@ -149,15 +160,61 @@ class Player {
                     pos, 
                     vel, 
                     vec2(size, size),
-                    "rgba(255, 255, 255, 0.5)", 
-                    random(0.25, 0.75)
+                    "rgba(255, 255, 255, 0.225)", 
+                    random(0.05, 0.5)
                 )
 
             }
         } 
     }
+    remove(){
+        const index = players.indexOf(this);
+        if (index === -1) {
+            console.error("Jogador não encontrado para remoção:", this);
+            return;
+        }
+        players.splice(index, 1);
+    }
+}
+
+function add(pos, size, vel, speed, jumpPower){
+    let player = new Player(pos, size, vel, speed, jumpPower);
+    players.push(player);
+    console.log("adicionando jogador", player, players.length);
+}
+
+function update(time){
+    players.forEach(player => {
+        player.update(time);
+    })
+}
+
+function draw(ctx, time){
+    players.forEach(player => {
+        player.draw(ctx, time);
+    })
+}
+
+function getPlayer(id){
+    if (id < 0 || id >= players.length) {
+        console.error("ID do jogador inválido:", id);
+        return null;
+    }
+    return players[id];
+}
+function getAllPlayers(){
+    return players;
+}
+
+function removeAll(){
+    players.forEach(player => {
+        player.remove()
+    })
+    if (players.length > 0) {
+        players = []
+    }
 }
 
 console.log('classe de jogador carregada');
 
-export default Player ;
+export {add, update, draw, getPlayer, getAllPlayers, removeAll} ;
