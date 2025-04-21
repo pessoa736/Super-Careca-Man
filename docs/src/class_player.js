@@ -59,7 +59,7 @@ class Player {
         this.inputs.jump = keys['ArrowUp'] || keys['KeyW'] || keys['Space']
         this.inputs.esc = keys["Escape"] || keys['KeyP']
         
-        if (this.inputs.esc && time%5 == 0) {
+        if (this.inputs.esc) {
             setPause(true)
         }
         if (this.inputs.left && !this.inputs.right) {
@@ -140,7 +140,7 @@ class Player {
         let isRunning = parseInt(Math.abs(this.vel.x)) > 0 && this.onGround && time % 6 == 0
         let isJumping = this.inputs.jump && this.onGround
         if (isRunning || isJumping) {
-            for (let i = 0; i < random(5, 20); i++) {
+            for (let i = 0; i < random(5, 10); i++) {
                 
                 let pos = this.pos.add(
                     vec2(

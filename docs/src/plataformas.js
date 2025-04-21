@@ -19,16 +19,6 @@ function plat(pos, size = vec2(1, 1)) {
 }
 
 
-
- plat(vec2(0, 15), vec2(20, 3)) 
- plat(vec2(24, 13), vec2(3, 5))
- plat(vec2(28, 12), vec2(3, 6))
- plat(vec2(36, 8), vec2(3, 10))
- plat(vec2(42, 5), vec2(3, 13))
- plat(vec2(46, 8), vec2(2, 2))
- plat(vec2(-3, -100), vec2(2.5, 115))
- plat(vec2(5, 6), vec2(15, 1))
-
 function checkCollision(pos, size = vec2(TileSize, TileSize)) {
     for (const plat of platforms) {
         if (
@@ -53,4 +43,4 @@ function drawPlatforms(){
     ctx.restore()
 }
 
-export {platforms, drawPlatforms, checkCollision};
+export {platforms, drawPlatforms, checkCollision, plat};

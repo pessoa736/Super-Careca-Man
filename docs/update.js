@@ -14,14 +14,15 @@ function resetTime() {
 
 function updategame(){
     if (vars.getPause()){
-        if (time%10 == 0 && (controle.getkeys()["Escape"] || controle.getkeys()['KeyP'])){
+        if ((controle.getkeys()["Escape"] || controle.getkeys()['KeyP'])){
             vars.setPause(false)
+            vars.updateTimePause()
         }
     }else{
         cam.setTarget(plr.getAllPlayers());
         cam.update()
         plr.update();
-
+        vars.updateTimePause()
     }
     
 }

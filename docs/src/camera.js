@@ -17,8 +17,8 @@ class Camera {
         if (!this.target) return;
         this.target.forEach( (target) => {
             if (!target) return;
-            let t = 0.05
-            let tx = target.pos.x-this.size.x/1.5 + target.vel.x*5
+            let t = 0.1
+            let tx = target.pos.x-this.size.x/2 + target.vel.x*5
             let ty = target.pos.y-this.size.y/2- target.vel.y*5
 
             tx = Math.max(Math.min(tx, 30*8*32), 0)
