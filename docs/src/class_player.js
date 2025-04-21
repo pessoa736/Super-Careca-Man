@@ -150,8 +150,8 @@ class Player {
                 )
     
                 let vel = vec2(
-                    random(-1, 1)-this.vel.x/4, 
-                    random(-1,1)-this.vel.y
+                    random(-100, 100)/100-this.vel.x/4, 
+                    random(-50,100)/100-this.vel.y
                 )
     
                 let size = random(9, 13)
@@ -160,8 +160,8 @@ class Player {
                     pos, 
                     vel, 
                     vec2(size, size),
-                    "rgba(255, 255, 255, 0.225)", 
-                    random(0.05, 0.5)
+                    "rgba(191, 165, 121, 0.69)", 
+                    random(1, 5)/5
                 )
 
             }
