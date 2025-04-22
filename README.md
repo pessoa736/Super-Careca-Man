@@ -15,9 +15,12 @@ O objetivo deste projeto é aplicar conceitos fundamentais de desenvolvimento we
 - Interface simples e responsiva
 
 ## Como Executar
+ * [click aqui](https://pessoa736.github.io/Super-Careca-Man)
 
-1. Baixe ou clone este repositório.
-2. Abra o arquivo `game/index.html` em um navegador moderno.
+ou:
+
+1. clone este repositório.
+2. Abra o arquivo `doc/index.html` em um navegador moderno.
 3. Use as setas do teclado ou as teclas WASD para controlar o personagem.
 
 ## Créditos
