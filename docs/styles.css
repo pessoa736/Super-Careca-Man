@@ -38,26 +38,12 @@ a:hover {
 }
 
 main{
-    padding-left: 2.5%;
-    padding-top: 2.5%;
-    background: #333;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    position: relative;
     justify-self: center;
     justify-content: center;
+    align-self: center;
 }
 
-header {
-    padding: 0.5%;
-    width: 100%;
-    margin-bottom: 1%;
-    text-align: center;
-    background: #444;
-    position: sticky;
-    top: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
 
 footer {
     padding: 0.5%;
@@ -66,12 +52,16 @@ footer {
     position: fixed;
     bottom: 0;
     text-align: center;
-    background: #444;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    color: rgba(255,255,255,0.2)
 }
 
 .version {
     position: absolute;
     bottom: 1%;
     right: 2%;
+}
+
+canvas {
+    justify-self: center;
+    align-self: center;
 }
