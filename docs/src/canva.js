@@ -31,6 +31,8 @@ function updateCanvas() {
         main.style.height = wy + "px"
     } 
     
+    main.style.width = Math.sqrt(wx*hx) + "px"
+    main.style.height = Math.sqrt(wy*hy) + "px"
     canvas.width = main.offsetWidth - 0.075*main.offsetWidth;
     canvas.height = main.offsetHeight - 0.15*main.offsetHeight;
 }
