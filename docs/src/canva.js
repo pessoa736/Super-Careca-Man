@@ -14,25 +14,22 @@ main.appendChild(canvas);
 
 function updateCanvas() {
     let aspect = 240/136;
-    let hx = parseInt(window.innerHeight*aspect)*0.7
-    let hy = parseInt(window.innerHeight)*0.7
+    let hx = parseInt(window.innerHeight*aspect)*0.6
+    let hy = parseInt(window.innerHeight)*0.6
     let wx = parseInt(window.innerWidth)*0.7
     let wy = parseInt(window.innerWidth/aspect)*0.7
 
-    if (hx < wx) {
+    if (hx <= wx) {
         main.style.width =  hx + "px"
     } else {
         main.style.width =  wx + "px"
     } 
     
-    if (hy < wy) {
+    if (hy <= wy) {
         main.style.height = hy + "px"
     } else {
         main.style.height = wy + "px"
     } 
-    
-    main.style.width = Math.sqrt(wx*hx) + "px"
-    main.style.height = Math.sqrt(wy*hy) + "px"
     canvas.width = main.offsetWidth - 0.075*main.offsetWidth;
     canvas.height = main.offsetHeight - 0.15*main.offsetHeight;
 }
