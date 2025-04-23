@@ -51,56 +51,32 @@ function drawMenu() {
     ctx.textBaseline = "middle"
     ctx.fillText("Super Careca Man", canvas.width*0.05, canvas.height*0.1)
     ctx.restore()
-
-    ctx.save()
     
-    careca.draw(vec2(canvas.width*0.7, canvas.height*0.5), vec2(3, 3), -45)
-    console.log(careca)
-    ctx.restore()
-
-    ctx.save()
+    let sca = utils.getScreemScale();
+    careca.draw(vec2(canvas.width - 175*sca.x, 100*sca.y), vec2(5*sca.x, 5*sca.y), -45, 1)
     
     utils.drawRect(
         vec2(canvas.width*0.5, canvas.height*0.5), 
         vec2(canvas.width*0.5, canvas.height*0.5), 
         "rgba(0, 0, 0, 0.5)"
     )
-    utils.drawText(
+
+    let frase = [
         "O Super Careca Man precisa chega na instituição de ",
-        vec2(canvas.width*0.5, canvas.height*0.55),
-        6,
-        "white",
-        vec2(4,4),
-        "start",
-        "right"
-    )
-    utils.drawText(
         'ensino "Angulo Tecnicos" para dar aula de programação,',
-        vec2(canvas.width*0.5, canvas.height*0.6),
-        6,
-        "white",
-        vec2(4,4),
-        "start",
-        "right"
-    )
-    utils.drawText(
         'mas o caminho é cheio de desafios e obstáculos',
-        vec2(canvas.width*0.5, canvas.height*0.65),
-        6,
-        "white",
-        vec2(4,4),
-        "start",
-        "right"
-    )
-    utils.drawText(
-        "Ajude-o a chegar lá!",
-        vec2(canvas.width*0.5, canvas.height*0.7),
-        6,
-        "white",
-        vec2(4,4),
-        "start",
-        "right"
-    )
+        "Ajude-o a chegar lá!"
+    ]
+    for (let i = 0; i < frase.length; i++) {
+        utils.drawText(
+            frase[i],
+            vec2(canvas.width*0.65, canvas.height*0.55 + i*50),
+            6,
+            "white",
+            vec2(4,4),
+            "center"
+        )
+    }
     
     ctx.restore()
 

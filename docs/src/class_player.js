@@ -117,24 +117,34 @@ class Player {
         }
     }
     draw(ctx, Time){
-        let spritePosX = this.directionX*this.pos.x ;
         let time = getPause() ? 0 : Time
         ctx.save();
-        ctx.scale(this.directionX, 1);
        
         if(Math.abs(parseInt(this.vel.y)) != 0){
             let spriteTime2 = parseInt((this.sprites.junpingtime/(this.sprites.junpingtime+1))+0.4) % 2;
-            this.sprites.junping[spriteTime2].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
+            this.sprites.junping[spriteTime2].draw(
+                this.pos, 
+                vec2(1, 1),
+                0,this.directionX
+            );
             this.sprites.junpingtime++;
         } 
         else if (parseInt(Math.abs(this.vel.x))==0) {
             let spriteTime = parseInt(time/15) % 2;
-            this.sprites.idle[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
+            this.sprites.idle[spriteTime].draw(
+                this.pos, 
+                vec2(1,1),
+                0,this.directionX
+            );
         }
         else if (Math.abs(this.vel.x) > 0) {
             
         let spriteTime = parseInt(time/5) % 4;
-            this.sprites.walk[spriteTime].draw(ctx, vec2(spritePosX, this.pos.y), vec2(this.directionX, 1));
+            this.sprites.walk[spriteTime].draw(
+                this.pos, 
+                vec2(1, 1),
+                0,this.directionX
+            );
         }
         ctx.restore();
         let isRunning = parseInt(Math.abs(this.vel.x)) > 0 && this.onGround && time % 6 == 0

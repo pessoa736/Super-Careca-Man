@@ -2,6 +2,7 @@ import vec2 from "./vec2.js"
 import { ctx, canvas} from "./canva.js";
 import { TileSize } from "./variaveis de mundo.js";
 import { random } from "./utils.js";
+import * as utils from "./utils.js";
 
 let cameras = []
 
@@ -31,7 +32,7 @@ class Camera {
     }
     draw(ctx, canvas){
         let sca = utils.getScreemScale()
-        ctx.scale(sca.x, sca.x)
+        ctx.scale(sca.x, sca.y)
         ctx.translate(-this.pos.x, -this.pos.y)
     }
     remove() {
