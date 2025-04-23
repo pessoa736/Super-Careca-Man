@@ -116,9 +116,9 @@ class Player {
             this.remove();
         }
     }
-    draw(ctx, time){
+    draw(ctx, Time){
         let spritePosX = this.directionX*this.pos.x ;
-
+        let time = getPause() ? 0 : Time
         ctx.save();
         ctx.scale(this.directionX, 1);
        

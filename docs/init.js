@@ -28,6 +28,17 @@ function gameinit(){
     cam.add(vec2(0, -1500))
 }
 
+function pauseScreenInit(){
+    buttons.add(
+        "resume",
+        function() {
+            Vars.setPause(false)
+        },
+        vec2(50, 100),
+        vec2(100, 50)
+    )
+}
+
 function menuinit(){
     buttons.add(
         "Play", 

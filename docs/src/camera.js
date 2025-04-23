@@ -30,9 +30,8 @@ class Camera {
         })
     }
     draw(ctx, canvas){
-        let scaX = 8*canvas.width/(240*TileSize)
-        let scaY = 8*canvas.height/(136*TileSize)
-        ctx.scale(scaX*1.5, scaY*1.5)
+        let sca = utils.getScreemScale()
+        ctx.scale(sca.x, sca.x)
         ctx.translate(-this.pos.x, -this.pos.y)
     }
     remove() {
