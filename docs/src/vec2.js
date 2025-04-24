@@ -32,6 +32,10 @@ class vector2{
       let a = this
       return new vector2(parseInt(a.x/t)*t, parseInt(a.y/t)*t)
     }
+    resto(b){
+      let a = this
+      return new vector2(a.x % b.x, a.y % b.y)
+    }
   }
 
 function vec2(x, y){

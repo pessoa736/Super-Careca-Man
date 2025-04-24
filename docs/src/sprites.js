@@ -2,7 +2,7 @@ import vec2 from "./vec2.js";
 import {ctx} from "./canva.js";
 import * as utils from "./utils.js";
 class Sprite {
-  constructor(src, size) {
+  constructor(src, size = vec2(32, 32)) {
     this.size = size;
     this.image = new Image(size.x, size.y); 
     this.image.onerror = () => {

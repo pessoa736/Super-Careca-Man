@@ -27,14 +27,14 @@ class Camera {
             let tx = target.pos.x-this.size.x/2 + target.vel.x*5
             let ty = target.pos.y-this.size.y/2 - target.vel.y*5
 
-            tx = Math.max(Math.min(tx+random(-5,5), 30*8*32), 0)
-            ty = Math.min(ty+random(-100,100)/100, 15)
+            tx = Math.max(Math.min(tx, 30*8*32), 0)
+            ty = Math.min(ty, 15)
 
 
             this.pos = this.pos.lerp(vec2(tx, ty), t)
         })
     }
-    draw(ctx, canvas){
+    draw(){
         let sca = utils.getScreemScale()
         ctx.scale(sca.x, sca.y)
         ctx.translate(-this.pos.x, -this.pos.y)
@@ -51,6 +51,10 @@ function add(pos = vec2()) {
     }
     const camera = new Camera(pos);
     cameras.push(camera);
+}
+
+function getCameraPos(){
+    return cameras[0].pos
 }
 
 function setTarget( target){
@@ -78,9 +82,13 @@ function removeAll() {
     }
 }
 
+function GetQuantidade(){
+    return cameras.length
+}
 
 
 
-export {add, setTarget, update, draw, removeAll};
+
+export {add, setTarget, update, draw, removeAll, getCameraPos, GetQuantidade};
 
 console.log('modulo da classe da camera carregada');

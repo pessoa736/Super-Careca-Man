@@ -23,6 +23,7 @@ function gameinit(){
     plat(vec2(-3, -100), vec2(3, 115))
     plat(vec2(5, -109), vec2(15, 115))
     plat(vec2(26, 4), vec2(4, 4)) 
+    plat(vec2(54, 13), vec2(90, 4)) 
 
     plr.add(vec2(8, -1400))
     cam.add(vec2(0, -1500))

@@ -35,7 +35,7 @@ function vinheta() {
 
 
 function drawgame() {
-    cam.draw(ctx, canvas)
+    cam.draw()
     drawPlatforms();
     plr.draw(ctx, time);
 }
@@ -83,8 +83,41 @@ function drawMenu() {
 
 }
 
-function background(){
 
+let bg = [] 
+bg[4] = new Sprite('background/1.png', vec2(610,300))
+bg[3] = new Sprite('background/2.png', vec2(610,300))
+bg[1] = new Sprite('background/3.png', vec2(610,300))
+bg[2] = new Sprite('background/4.png', vec2(610,300))
+
+function background(){ 
+    let sca = utils.getScreemScale()
+    let camP
+    if (cam.GetQuantidade()>0) camP = cam.getCameraPos(); 
+    if (gamestate.get() == "game"){
+        for (const b in bg){
+            if (bg[b] != undefined && bg[b] != null){
+                bg[b].draw(
+                    camP
+                        .around()
+                        .resto(vec2(610*2, 600*100))
+                        .mult(vec2(-0.2/b, -0.02/b))
+                    ,
+                vec2(2*sca.x,2*sca.y)
+                )
+                bg[b].draw(
+                    camP
+                        .add(vec2(-610*2,0))
+                        .around()
+                        .resto(vec2(610*2, 600))
+                        .mult(vec2(-0.2/b, -0.02/b))
+                    ,
+                vec2(2*sca.x,2*sca.y)
+                )
+            }
+        }
+    }
+    
 }
 
 function UI() {

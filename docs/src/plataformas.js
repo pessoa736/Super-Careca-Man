@@ -10,6 +10,10 @@ let tilesImag = [
     "tiles/3.png",
     "tiles/4.png",
     "tiles/5.png",
+    "tiles/6.png",
+    "tiles/7.png",
+    "tiles/8.png",
+    "tiles/9.png",
 ]
 
 let tilesSpr = []
@@ -39,28 +43,31 @@ class Platform {
 
         for(let x = 1; x<finalx; x+=TileSize){
             for(let y = 1; y<=finaly; y+=TileSize){
-                let DImag = tilesSpr[5]
+                let DImag = tilesSpr[4]
                 
-                let Dup = y==1 && x>1 && x<finalx-TileSize
-                let Ddown = y+TileSize-1==finaly && x>1 && x<finalx-TileSize
-                let Dright = x==1 && y>1 && y<finaly-TileSize
-                let Dleft = x+TileSize-1==finalx && y>1 && y<finaly-TileSize
+                let Dup = y==1 && x>0 && x<finalx
+                let Ddown = y+TileSize-1==finaly && x>0 && x<finalx
+                let Dright = x==1 && y>0 && y<finaly
+                let Dleft = x+TileSize-1==finalx && y>0 && y<finaly
 
                 if (Dup && !Dleft && !Dright){
                     DImag = tilesSpr[0]
-                }
-                if (Ddown && !Dleft && !Dright){
+                }else if (Ddown && !Dleft && !Dright){
                     DImag = tilesSpr[2]
-                }
-                if (Dright && !Dup && !Ddown){
+                }else if (Dright && !Dup && !Ddown){
                     DImag = tilesSpr[3]
-                }
-                if (Dleft && !Dup && !Ddown){
+                }else if (Dleft && !Dup && !Ddown){
                     DImag = tilesSpr[1]
-                }
-
-                if (!Dup && !Ddown && !Dleft && !Dright){
+                }else if(Dup && Dright){
                     DImag = tilesSpr[5]
+                }else if(Dup && Dleft){
+                    DImag = tilesSpr[6]
+                }else if(Ddown && Dright){
+                    DImag = tilesSpr[7]
+                }else if(Ddown && Dleft){
+                    DImag = tilesSpr[8]
+                }else if (!Dup && !Ddown && !Dleft && !Dright){
+                    DImag = tilesSpr[4]
                 }
 
 
