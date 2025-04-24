@@ -8,7 +8,7 @@ class Sprite {
     this.image.onerror = () => {
         console.error(`Erro ao carregar imagem: ${src}`);
     };
-    this.image.src = "https://raw.github.com/pessoa736/Super-Careca-Man/main/docs/" + src;
+    this.image.src = "https://raw.github.com/pessoa736/Super-Careca-Man/main/docs/src/sprites/" + src;
   }
 
   draw(pos = vec2(), scale = vec2(1,1), angle = 0, directionX = 1) {

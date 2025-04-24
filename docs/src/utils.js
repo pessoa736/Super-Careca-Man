@@ -9,6 +9,16 @@ export function lerp(a, b, t) {
 }
 
 
+export function normalize(n){
+    return Math.abs(n) / n;
+}
+
+export function normalizeVec2(v2 = vec2()){
+    let N = Math.sqrt( v2.x**2 + v2.y**2)
+
+    return vec2(v2.x / N, v2.y / N)
+}
+
 
 export function around(n, int) {
     return parseInt(n / int) * int;

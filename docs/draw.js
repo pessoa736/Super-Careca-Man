@@ -41,7 +41,7 @@ function drawgame() {
 }
 
 
-let careca = new Sprite("src/sprites/careca/careca_apenas_rosto.png", vec2(32, 64))
+let careca = new Sprite("careca/careca_apenas_rosto.png", vec2(32, 64))
 
 function drawMenu() {
     ctx.save()

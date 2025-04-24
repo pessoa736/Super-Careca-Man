@@ -1,5 +1,5 @@
 import vec2 from './vec2.js';
-
+import { canvas, ctx  } from './canva.js';
 
 class Particle {
     constructor(pos = vec2(), vel = vec2(), size = vec2(1, 1), color, livetime = 1) {
@@ -11,7 +11,7 @@ class Particle {
         this.livetime = livetime*60;
     }
 
-    draw(ctx) {
+    draw() {
         ctx.save();
         ctx.fillStyle = this.color;
         ctx.globalAlpha = this.alpha;
@@ -48,9 +48,9 @@ function updateParticles() {
     }
 }
 
-function drawParticles(ctx) {
+function drawParticles() {
     for (const particle of particles) {
-        particle.draw(ctx);
+        particle.draw();
     }
 }
 

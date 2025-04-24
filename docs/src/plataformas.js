@@ -2,11 +2,78 @@ import vec2  from './vec2.js';
 import { canvas, ctx } from './canva.js';
 import { TileSize } from './variaveis de mundo.js';
 import {around} from './utils.js';
+import Sprite from './sprites.js';
 
+let tilesImag = [
+    "tiles/1.png",
+    "tiles/2.png",
+    "tiles/3.png",
+    "tiles/4.png",
+    "tiles/5.png",
+]
+
+let tilesSpr = []
+
+let i = 0
+for (const imag of tilesImag){
+    tilesSpr.push(
+        new Sprite(
+            imag, 
+            vec2(
+                TileSize, 
+                TileSize
+            )
+        )
+    )
+    console.log(tilesSpr[i])
+    i=i+1
+}
 class Platform {
     constructor(pos = vec2(0, 0), size = vec2(1, 1)) {
         this.pos = pos.mult(vec2(TileSize, TileSize)).around(TileSize);
         this.size = size.mult(vec2(TileSize, TileSize)).around(TileSize);
+    }
+    draw(){
+        let finalx = around(this.size.x, TileSize)
+        let finaly = around(this.size.y, TileSize)
+
+        for(let x = 1; x<finalx; x+=TileSize){
+            for(let y = 1; y<=finaly; y+=TileSize){
+                let DImag = tilesSpr[5]
+                
+                let Dup = y==1 && x>1 && x<finalx-TileSize
+                let Ddown = y+TileSize-1==finaly && x>1 && x<finalx-TileSize
+                let Dright = x==1 && y>1 && y<finaly-TileSize
+                let Dleft = x+TileSize-1==finalx && y>1 && y<finaly-TileSize
+
+                if (Dup && !Dleft && !Dright){
+                    DImag = tilesSpr[0]
+                }
+                if (Ddown && !Dleft && !Dright){
+                    DImag = tilesSpr[2]
+                }
+                if (Dright && !Dup && !Ddown){
+                    DImag = tilesSpr[3]
+                }
+                if (Dleft && !Dup && !Ddown){
+                    DImag = tilesSpr[1]
+                }
+
+                if (!Dup && !Ddown && !Dleft && !Dright){
+                    DImag = tilesSpr[5]
+                }
+
+
+                if (DImag != undefined || DImag != null){
+                    DImag.draw(
+                        this.pos.add(vec2(x, y)),
+                        vec2(1, 1),
+                        0,
+                        1
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -39,6 +106,7 @@ function drawPlatforms(){
     ctx.fillStyle = '#27ae60';
     for (const plat of platforms) {
         ctx.fillRect(plat.pos.x, plat.pos.y, plat.size.x, plat.size.y);
+        plat.draw();
     }
     ctx.restore()
 }

@@ -16,12 +16,16 @@ class Camera {
         this.target = target
     }
     update(){
+        let sca = utils.getScreemScale()
+        this.size.x = 350*sca.x
+        this.size.y = 300*sca.y
+        
         if (!this.target) return;
         this.target.forEach( (target) => {
             if (!target) return;
             let t = 0.1
             let tx = target.pos.x-this.size.x/2 + target.vel.x*5
-            let ty = target.pos.y-this.size.y/2- target.vel.y*5
+            let ty = target.pos.y-this.size.y/2 - target.vel.y*5
 
             tx = Math.max(Math.min(tx+random(-5,5), 30*8*32), 0)
             ty = Math.min(ty+random(-100,100)/100, 15)

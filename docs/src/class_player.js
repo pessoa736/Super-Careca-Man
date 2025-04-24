@@ -9,10 +9,6 @@ import { time } from "../update.js";
 import init from "../init.js";
 
 
-function normalize(n){
-    return Math.abs(n) / n;
-}
-
 let players = [];
 
 class Player {
@@ -32,18 +28,18 @@ class Player {
         }
         this.sprites = {
             idle: [
-                new Sprite("src/sprites/careca/careca_parado_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_parado_2.png", this.size),
+                new Sprite("careca/careca_parado_1.png", this.size),
+                new Sprite("careca/careca_parado_2.png", this.size),
             ],
             walk: [
-                new Sprite("src/sprites/careca/careca_correndo_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_correndo_2.png", this.size),
-                new Sprite("src/sprites/careca/careca_correndo_3.png", this.size),
-                new Sprite("src/sprites/careca/careca_correndo_2.png", this.size),
+                new Sprite("careca/careca_correndo_1.png", this.size),
+                new Sprite("careca/careca_correndo_2.png", this.size),
+                new Sprite("careca/careca_correndo_3.png", this.size),
+                new Sprite("careca/careca_correndo_2.png", this.size),
             ],
             junping: [
-                new Sprite("src/sprites/careca/careca_pulando_1.png", this.size),
-                new Sprite("src/sprites/careca/careca_pulando_2.png", this.size),
+                new Sprite("careca/careca_pulando_1.png", this.size),
+                new Sprite("careca/careca_pulando_2.png", this.size),
             ],
         }
         this.sprites.junpingtime = 0;
