@@ -14,6 +14,7 @@ function clearAllEntities() {
 }
 
 function gameinit(){
+    pauseScreenInit()
     plat(vec2(0, 15), vec2(20, 3)) 
     plat(vec2(24, 13), vec2(3, 5))
     plat(vec2(29, 12), vec2(3, 6))
@@ -35,7 +36,6 @@ function pauseScreenInit(){
         function() {
             Vars.setPause(false)
         },
-        vec2(50, 100),
         vec2(100, 50)
     )
 }
@@ -47,7 +47,6 @@ function menuinit(){
             gamestate.setByName("game")
             init()
         }, 
-        vec2(50, 100), 
         vec2(100, 50)
     )
     buttons.add(
@@ -56,23 +55,48 @@ function menuinit(){
             gamestate.setByName("settings")
             init()
         }, 
-        vec2(50, 175), 
+        vec2(100, 50)
+    )
+    buttons.add(
+        "Creditos", 
+        function() { 
+            gamestate.setByName("creditos")
+            init()
+        }, 
         vec2(100, 50)
     )
 }
 
+
+buttons.add(
+    "back to menu", 
+    function() { 
+        gamestate.setByName("menu")
+        init()
+    }, 
+    vec2(100, 50)
+)
+
 function settingsinit(){
     buttons.add(
-        "Back", 
+        "back to menu", 
         function() { 
             gamestate.setByName("menu")
             init()
         }, 
-        vec2(50, 240), 
         vec2(100, 50)
     )
 }
-
+function creditoinit(){
+    buttons.add(
+        "back to menu", 
+        function() { 
+            gamestate.setByName("menu")
+            init()
+        }, 
+        vec2(100, 50)
+    )
+}
 
 function init(){
     clearAllEntities()
@@ -82,7 +106,7 @@ function init(){
     } else if (gamestate.get() == "menu") {
         menuinit()
     } else if (gamestate.get() == "creditos") {
-        
+        creditoinit()
     } else if (gamestate.get() == "settings") {
         settingsinit()
     } else gamestate.setByName("menu")

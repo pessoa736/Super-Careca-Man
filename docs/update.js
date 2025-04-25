@@ -5,6 +5,9 @@ import * as plr from './src/class_player.js';
 import * as cam from './src/camera.js';
 import * as buttons from './src/button.js';
 import * as vars from './src/variaveis de mundo.js';
+import * as utils from './src/utils.js'
+import vec2 from "./src/vec2.js";
+import { canvas } from "./src/canva.js";
 
 var time = 0;
 
@@ -29,10 +32,10 @@ function updategame(){
 
 
 function update() {
-    controle.update();
     buttons.update();
     
     if (gamestate.get() == "game") {
+        
         updategame();
     }else if (gamestate.get() == "menu") {
     

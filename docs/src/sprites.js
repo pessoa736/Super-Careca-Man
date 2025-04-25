@@ -12,19 +12,21 @@ class Sprite {
   }
 
   draw(pos = vec2(), scale = vec2(1,1), angle = 0, directionX = 1) {
-    let sca = utils.getScreemScale();
-    let posx = directionX > 0 ? pos.x : pos.x + this.size.x*scale.x;
-    ctx.save();
-    ctx.translate(posx, pos.y);
-    ctx.rotate((Math.PI*angle)/180);
-    ctx.scale(directionX, 1);
-    
-    ctx.drawImage(this.image, 
-      0, 0, this.size.x, this.size.y,         
-      0, 0,          
-      this.size.x*scale.x, this.size.y*scale.y              
-    );
-    ctx.restore();
+    if ( this.image != undefined && this.image != null){
+      let sca = utils.getScreemScale();
+      let posx = directionX > 0 ? pos.x : pos.x + this.size.x*scale.x;
+      ctx.save();
+      ctx.translate(posx, pos.y);
+      ctx.rotate((Math.PI*angle)/180);
+      ctx.scale(directionX, 1);
+      
+      ctx.drawImage(this.image, 
+        0, 0, this.size.x, this.size.y,         
+        0, 0,          
+        this.size.x*scale.x, this.size.y*scale.y              
+      );
+      ctx.restore();
+    }
   }
 }
 

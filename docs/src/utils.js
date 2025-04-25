@@ -39,7 +39,6 @@ export function drawRect (pos = vec2(0, 0), size = vec2(0, 0), color = "white") 
     let sca = getScreemScale()
     ctx.save()
     ctx.translate(pos.x, pos.y)
-    ctx.scale(sca.x*size.x, sca.x*size.y)
     ctx.fillStyle = color
     ctx.fillRect(0, 0, size.x, size.y);
     ctx.restore()

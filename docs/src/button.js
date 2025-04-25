@@ -1,34 +1,38 @@
 import vec2 from "./vec2.js";
 import * as controle from "./controle.js";
+import { ctx } from "./canva.js";
+import * as Utils from "./utils.js"
 
 let buttons = [];
+let countdown = 0
 
 class Button {
-    constructor(label = toString(buttons.length), onClick =  function(){}, pos = vec2(), size = vec2()) {
-        this.pos = pos;
+    constructor(label = toString(buttons.length), onClick =  function(){}, size = vec2(1,1)) {
+        this.pos = vec2();
         this.size = size;
         this.label = label;
         this.onClick = onClick;
     }
     
-    draw(ctx) {
+    draw(pos = this.pos, size=this.size) {
+        this.size = size
+        let sca = Utils.getScreemScale()
         ctx.save();
         let mousepos = controle.getmouse().pos
         if (this.hover(mousepos)) {
-            ctx.scale(1.1, 1.05);
-            ctx.translate(-this.size.x * 0.1, -this.size.y * 0.1);
         }
         
         ctx.fillStyle = "rgba(0, 0, 0, 1)";
-        ctx.fillRect(this.pos.x, this.pos.y, this.size.x, this.size.y);
+        ctx.fillRect(pos.x, pos.y, this.size.x*sca.x , this.size.y*sca.y);
         
         ctx.fillStyle = "white";
-        ctx.font = "20px Comic Sans MS";
+        ctx.font = `${20*sca.x}px Comic Sans MS`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(this.label, this.pos.x + this.size.x / 2, this.pos.y + this.size.y / 2);
+        ctx.fillText(this.label, pos.x + this.size.x*sca.x / 2, pos.y+ this.size.y*sca.y / 2);
 
         ctx.restore();
+        this.pos = pos
     }
 
     checkClick() {
@@ -37,9 +41,10 @@ class Button {
     }
 
     hover() {
+        let sca = Utils.getScreemScale()
         let mousePos = controle.getmouse().pos;
-        return mousePos.x >= this.pos.x && mousePos.x <= this.pos.x + this.size.x &&
-               mousePos.y >= this.pos.y && mousePos.y <= this.pos.y + this.size.y;
+        return mousePos.x >= this.pos.x && mousePos.x <= this.pos.x + this.size.x*sca.x &&
+               mousePos.y >= this.pos.y && mousePos.y <= this.pos.y + this.size.y*sca.y;
     }
 
     remove() {
@@ -53,21 +58,24 @@ class Button {
 function add(label, onClick, pos, size) {
     const button = new Button(label, onClick, pos, size);
     buttons.push(button);
+    return button.label
 }
 
-
-function draw(ctx) {
-    buttons.forEach(button => {
-        button.draw(ctx);
-    });
+function GetButton(label){
+    for (const b of buttons){
+        if (label == b.label) return b;
+    }
 }
+
 
 function update() {
     buttons.forEach(button => {
-        if (button.hover() && button.checkClick()) {
+        if (button.hover() && button.checkClick() && countdown > 32) {
             button.onClick();
+            countdown = 0
         }
     });
+    countdown++
 }
 
 function removeAll() {
@@ -79,5 +87,5 @@ function removeAll() {
     }
 }
 
-export {add, draw, update, removeAll};
+export {add, GetButton, update, removeAll};
 

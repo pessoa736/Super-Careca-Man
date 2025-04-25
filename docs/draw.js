@@ -35,31 +35,52 @@ function vinheta() {
 
 
 function drawgame() {
+    let resume = buttons.GetButton("resume")
+    if (Vars.getPause()){
+        resume.draw(
+            vec2(canvas.width*0.333, canvas.height*0.7),
+        )
+    }
     cam.draw()
     drawPlatforms();
     plr.draw(ctx, time);
+    Particle.drawParticles(ctx)
 }
 
 
 let careca = new Sprite("careca/careca_apenas_rosto.png", vec2(32, 64))
 
 function drawMenu() {
-    ctx.save()
-    ctx.fillStyle = "white"
-    ctx.font = "24pt Comic Sans MS"
-    ctx.textAlign = "start"
-    ctx.textBaseline = "middle"
-    ctx.fillText("Super Careca Man", canvas.width*0.05, canvas.height*0.1)
-    ctx.restore()
-    
     let sca = utils.getScreemScale();
+    
+    let playButton = buttons.GetButton("Play")
+    let settingsButton = buttons.GetButton("Settings")
+    let CreditosButton = buttons.GetButton("Creditos")
+
+    Particle.drawParticles(ctx)
+    playButton.draw(vec2(canvas.width*0.05, canvas.height*0.2))
+    settingsButton.draw(vec2(canvas.width*0.05, canvas.height*0.3))
+    CreditosButton.draw(vec2(canvas.width*0.05, canvas.height*0.4))
+
+    ctx.save()
+    utils.drawText(
+        "Super Careca Man",
+        vec2( canvas.width*0.05, canvas.height*0.1),
+        24,
+        "white",
+        vec2(3, 3),
+        "start"
+    )
+    
+    ctx.restore()
     careca.draw(vec2(canvas.width - 175*sca.x, 100*sca.y), vec2(5*sca.x, 5*sca.y), -45, 1)
     
     utils.drawRect(
-        vec2(canvas.width*0.5, canvas.height*0.5), 
-        vec2(canvas.width*0.5, canvas.height*0.5), 
+        vec2(canvas.width*0.3, canvas.height*0.45), 
+        vec2(canvas.width*0.7, canvas.height*0.45), 
         "rgba(0, 0, 0, 0.5)"
     )
+
 
     let frase = [
         "O Super Careca Man precisa chega na instituição de ",
@@ -70,7 +91,7 @@ function drawMenu() {
     for (let i = 0; i < frase.length; i++) {
         utils.drawText(
             frase[i],
-            vec2(canvas.width*0.65, canvas.height*0.55 + i*50),
+            vec2(canvas.width*0.65, (canvas.height+ i*80*sca.y)*0.55),
             6,
             "white",
             vec2(4,4),
@@ -79,42 +100,34 @@ function drawMenu() {
     }
     
     ctx.restore()
+}
 
+function drawCredito(){
+    let backtoMenu = buttons.GetButton("back to menu")
 
+    backtoMenu.draw(vec2(canvas.width*0.05, canvas.height*0.9), vec2(150,50))
 }
 
 
-let bg = [] 
-bg[4] = new Sprite('background/1.png', vec2(610,300))
-bg[3] = new Sprite('background/2.png', vec2(610,300))
-bg[1] = new Sprite('background/3.png', vec2(610,300))
-bg[2] = new Sprite('background/4.png', vec2(610,300))
-
 function background(){ 
-    let sca = utils.getScreemScale()
-    let camP
-    if (cam.GetQuantidade()>0) camP = cam.getCameraPos(); 
-    if (gamestate.get() == "game"){
-        for (const b in bg){
-            if (bg[b] != undefined && bg[b] != null){
-                bg[b].draw(
-                    camP
-                        .around()
-                        .resto(vec2(610*2, 600*100))
-                        .mult(vec2(-0.2/b, -0.02/b))
-                    ,
-                vec2(2*sca.x,2*sca.y)
-                )
-                bg[b].draw(
-                    camP
-                        .add(vec2(-610*2,0))
-                        .around()
-                        .resto(vec2(610*2, 600))
-                        .mult(vec2(-0.2/b, -0.02/b))
-                    ,
-                vec2(2*sca.x,2*sca.y)
-                )
-            }
+    if (gamestate.get() == "menu"){
+        if (Particle.particles.length <=150){
+            Particle.addParticle(
+                vec2(
+                    utils.random(0, canvas.width),
+                    utils.random(0, canvas.width)
+                ).around(Vars.TileSize).around(Vars.TileSize),
+                vec2(
+                    -utils.random(-500, 500)/1000,
+                    utils.random(-100, 100)/200
+                ),
+                vec2(
+                    utils.random(4, 8),
+                    utils.random(4, 8)
+                ),
+                "rgba(90, 90, 90, 0.66)",
+                utils.random(25, 50)/10
+            )
         }
     }
     
@@ -122,7 +135,6 @@ function background(){
 
 function UI() {
     ctx.save()
-    buttons.draw(ctx)
     ctx.restore()
 }
 
@@ -135,12 +147,11 @@ function foreground() {
     } else if (gamestate.get() == "menu") {
         drawMenu()
     } else if (gamestate.get() == "creditos") {
-      
+        drawCredito()
     } else if (gamestate.get() == "settings") {
-      
+        drawSettings()
     }
 
-    Particle.drawParticles(ctx)
     
     ctx.restore()
 }
