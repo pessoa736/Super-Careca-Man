@@ -52,7 +52,7 @@ export function drawText (text, pos = vec2(0, 0), size = 24, color = "white",sca
     ctx.fillStyle = color
     ctx.textAlign = textAlign
     ctx.textBaseline = justify
-    ctx.font = `${size}px Comic Sans MS`
+    ctx.font = `${size}pt Comic Sans MS`
     ctx.fillText(text, 0, 0)
     ctx.restore()
 }
