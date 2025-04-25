@@ -110,10 +110,13 @@ function checkCollision(pos, size = vec2(TileSize, TileSize)) {
 
 function drawPlatforms(){
     ctx.save()
-    ctx.fillStyle = '#27ae60';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
     for (const plat of platforms) {
-        ctx.fillRect(plat.pos.x, plat.pos.y, plat.size.x, plat.size.y);
         plat.draw();
+        ctx.fillRect(plat.pos.x, plat.pos.y+10, plat.size.x-10, plat.size.y-10)
+        ctx.fillRect(plat.pos.x, plat.pos.y+15, plat.size.x-15, plat.size.y-15);
+        ctx.fillRect(plat.pos.x, plat.pos.y+20, plat.size.x-20, plat.size.y-20);
+        ctx.fillRect(plat.pos.x, plat.pos.y+40, plat.size.x-40, plat.size.y-40);
     }
     ctx.restore()
 }
