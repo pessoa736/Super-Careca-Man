@@ -3,6 +3,7 @@ import { canvas, ctx } from './canva.js';
 import { TileSize } from './variaveis de mundo.js';
 import {around} from './utils.js';
 import Sprite from './sprites.js';
+import { getCameraPos } from './camera.js';
 
 let tilesImag = [
     "tiles/1.png",
@@ -17,6 +18,7 @@ let tilesImag = [
 ]
 
 let tilesSpr = []
+let map = []
 
 let i = 0
 for (const imag of tilesImag){
@@ -37,12 +39,15 @@ class Platform {
         this.pos = pos.mult(vec2(TileSize, TileSize)).around(TileSize);
         this.size = size.mult(vec2(TileSize, TileSize)).around(TileSize);
     }
-    draw(){
-        let finalx = around(this.size.x, TileSize)
-        let finaly = around(this.size.y, TileSize)
+    init(){
+        let initx = around(this.pos.x, TileSize)
+        let inity = around(this.pos.y, TileSize)
+        let finalx = around((this.size.add(this.pos)).x, TileSize)
+        let finaly = around((this.size.add(this.pos)).y, TileSize)
 
-        for(let x = 1; x<finalx; x+=TileSize){
-            for(let y = 1; y<=finaly; y+=TileSize){
+        for(let x = this.pos.x; x<finalx; x+=TileSize){
+            map[parseInt(x/TileSize)] = []
+            for (let y = this.pos.y; y<=finaly; y+=TileSize){
                 let DImag = tilesSpr[4]
                 
                 let Dup = y==1 && x>0 && x<finalx
@@ -70,17 +75,12 @@ class Platform {
                     DImag = tilesSpr[4]
                 }
 
-
-                if (DImag != undefined || DImag != null){
-                    DImag.draw(
-                        this.pos.add(vec2(x, y)),
-                        vec2(1, 1),
-                        0,
-                        1
-                    )
-                }
+                DImag.pos = this.pos
+                map[parseInt(x/TileSize)][parseInt(y/TileSize)]=DImag
             }
         }
+    }
+    draw(){
     }
 }
 
@@ -88,8 +88,9 @@ class Platform {
 const platforms = [];
 
 function plat(pos, size = vec2(1, 1)) {
-    
-    platforms.push(new Platform(pos, size))
+    let p = new Platform(pos, size)
+    //p.init()
+    platforms.push(p)
 }
 
 
@@ -117,6 +118,25 @@ function drawPlatforms(){
         ctx.fillRect(plat.pos.x, plat.pos.y+15, plat.size.x-15, plat.size.y-15);
         ctx.fillRect(plat.pos.x, plat.pos.y+20, plat.size.x-20, plat.size.y-20);
         ctx.fillRect(plat.pos.x, plat.pos.y+40, plat.size.x-40, plat.size.y-40);
+    }
+    
+    let cam = getCameraPos()
+    let campos = campos.idiv(TileSize, TileSize)
+    let tela = vec2(canvas.width, canvas.height).idiv(vec2(TileSize, TileSize))
+    console.log(tela)
+    for(let x = 0; x<+tela.x; x++){
+        for(let y = 0; y<tela.y; y++){
+            let DImag = map[x][y]
+
+            if (DImag != undefined || DImag != null){
+                DImag.draw(
+                    vec2(x*TileSize, y*TileSize),
+                    vec2(1, 1),
+                    0,
+                    1
+                )
+            }
+        }
     }
     ctx.restore()
 }

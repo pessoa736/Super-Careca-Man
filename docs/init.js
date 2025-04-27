@@ -7,6 +7,7 @@ import {resetTime} from './update.js';
 import {plat} from './src/plataformas.js';
 import * as Vars from './src/variaveis de mundo.js';
 
+
 function clearAllEntities() {
     buttons.removeAll()
     plr.removeAll()
