@@ -46,14 +46,21 @@ class Platform {
         let finaly = around((this.size.add(this.pos)).y, TileSize)
 
         for(let x = this.pos.x; x<finalx; x+=TileSize){
-            map[parseInt(x/TileSize)] = []
-            for (let y = this.pos.y; y<=finaly; y+=TileSize){
-                let DImag = tilesSpr[4]
+            const xi = parseInt(x / TileSize);
+            if (!map[xi]) map[xi] = [];
+            for (let y = this.pos.y; y<=finaly-1; y+=TileSize){
+                const yi = parseInt(y / TileSize);
+                let DImag
                 
-                let Dup = y==1 && x>0 && x<finalx
-                let Ddown = y+TileSize-1==finaly && x>0 && x<finalx
-                let Dright = x==1 && y>0 && y<finaly
-                let Dleft = x+TileSize-1==finalx && y>0 && y<finaly
+                console.log(x, y)
+                
+                let Dup = Math.abs(y)===parseInt(Math.abs(this.pos.y)) && Math.abs(x)>0 && x<finalx
+                
+                let Ddown = Math.abs(y+TileSize)===parseInt(Math.abs(finaly)) && Math.abs(x)>0 && x<finalx
+
+                let Dright = Math.abs(x)===parseInt(Math.abs(this.pos.x)) && Math.abs(y)>0 && y<finaly
+
+                let Dleft = Math.abs(x+TileSize)===parseInt(Math.abs(finalx)) && Math.abs(y)>0 && y<finaly
 
                 if (Dup && !Dleft && !Dright){
                     DImag = tilesSpr[0]
@@ -76,11 +83,9 @@ class Platform {
                 }
 
                 DImag.pos = this.pos
-                map[parseInt(x/TileSize)][parseInt(y/TileSize)]=DImag
+                map[xi][yi]=DImag
             }
         }
-    }
-    draw(){
     }
 }
 
@@ -89,7 +94,7 @@ const platforms = [];
 
 function plat(pos, size = vec2(1, 1)) {
     let p = new Platform(pos, size)
-    //p.init()
+    p.init()
     platforms.push(p)
 }
 
@@ -108,37 +113,66 @@ function checkCollision(pos, size = vec2(TileSize, TileSize)) {
     return false;
 }
 
+function drawShadows(pos = vec2(), size = vec2(), alpha = 0.1){
+    ctx.save()
+
+    ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`; 
+    ctx.fillRect(pos.x, pos.y, size.x, size.y)
+    
+    ctx.restore()
+}
+
 
 function drawPlatforms(){
     ctx.save()
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    for (const plat of platforms) {
-        plat.draw();
-        ctx.fillRect(plat.pos.x, plat.pos.y+10, plat.size.x-10, plat.size.y-10)
-        ctx.fillRect(plat.pos.x, plat.pos.y+15, plat.size.x-15, plat.size.y-15);
-        ctx.fillRect(plat.pos.x, plat.pos.y+20, plat.size.x-20, plat.size.y-20);
-        ctx.fillRect(plat.pos.x, plat.pos.y+40, plat.size.x-40, plat.size.y-40);
-    }
-    
-    let cam = getCameraPos()
-    let campos = campos.idiv(TileSize, TileSize)
-    let tela = vec2(canvas.width, canvas.height).idiv(vec2(TileSize, TileSize))
-    console.log(tela)
-    for(let x = 0; x<+tela.x; x++){
-        for(let y = 0; y<tela.y; y++){
-            let DImag = map[x][y]
+    const cam = getCameraPos();
+    const minX = parseInt(cam.x / TileSize)-1;
+    const maxX = minX + 30;
+    const minY = parseInt(cam.y / TileSize) - 1;
+    const maxY = parseInt(cam.y / TileSize) + 17;
 
-            if (DImag != undefined || DImag != null){
-                DImag.draw(
-                    vec2(x*TileSize, y*TileSize),
+    for (let x = minX; x <= maxX; x++) {
+        for (let y = minY; y <= maxY; y++) {
+
+            if (map[x] && map[x][y]) {
+                    map[x][y].draw(
+                    vec2(x * TileSize, y * TileSize),
                     vec2(1, 1),
                     0,
                     1
-                )
+                );
             }
         }
     }
+
+    for (const plat of platforms) {
+        drawShadows(vec2(plat.pos.x, plat.pos.y+10), vec2(plat.size.x-10, plat.size.y-10))
+        drawShadows(vec2(plat.pos.x, plat.pos.y+15), vec2(plat.size.x-15, plat.size.y-15), 0.1)
+        drawShadows(vec2(plat.pos.x, plat.pos.y+20), vec2(plat.size.x-20, plat.size.y-20), 0.1)
+        drawShadows(vec2(plat.pos.x, plat.pos.y+25), vec2(plat.size.x-25, plat.size.y-25), 0.2)
+    }
+    
     ctx.restore()
+    console.log(platforms.length)
+
 }
+
+
+plat(vec2(0, 15), vec2(20, 3)) 
+plat(vec2(24, 13), vec2(5, 5))
+plat(vec2(29, 12), vec2(3, 6))
+plat(vec2(37, 8), vec2(3, 10))
+plat(vec2(43, 5), vec2(3, 13))
+plat(vec2(46, 8), vec2(2, 15))
+plat(vec2(-3, -100), vec2(3, 115))
+plat(vec2(5, -109), vec2(15, 115))
+plat(vec2(26, 4), vec2(4, 4)) 
+plat(vec2(20, -1), vec2(2, 2)) 
+plat(vec2(20, 1), vec2(6, 6)) 
+plat(vec2(28, -7), vec2(9, 6)) 
+plat(vec2(54, 12), vec2(3, 8))
+plat(vec2(69, 9), vec2(3, 6)) 
+plat(vec2(72, 5), vec2(6, 13)) 
+plat(vec2(57, 15), vec2(20, 6)) 
 
 export {platforms, drawPlatforms, checkCollision, plat};

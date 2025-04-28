@@ -16,22 +16,6 @@ function clearAllEntities() {
 
 function gameinit(){
     pauseScreenInit()
-    plat(vec2(0, 15), vec2(20, 3)) 
-    plat(vec2(24, 13), vec2(5, 5))
-    plat(vec2(29, 12), vec2(3, 6))
-    plat(vec2(37, 8), vec2(3, 10))
-    plat(vec2(43, 5), vec2(3, 13))
-    plat(vec2(46, 8), vec2(2, 15))
-    plat(vec2(-3, -100), vec2(3, 115))
-    plat(vec2(5, -109), vec2(15, 115))
-    plat(vec2(26, 4), vec2(4, 4)) 
-    plat(vec2(20, -1), vec2(2, 2)) 
-    plat(vec2(20, 1), vec2(6, 6)) 
-    plat(vec2(28, -7), vec2(9, 6)) 
-    plat(vec2(54, 12), vec2(3, 8))
-    plat(vec2(69, 9), vec2(3, 6)) 
-    plat(vec2(72, 5), vec2(6, 13)) 
-    plat(vec2(57, 15), vec2(20, 6)) 
 
     plr.add(vec2(8, -1400))
     cam.add(vec2(0, -1500))

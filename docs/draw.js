@@ -13,6 +13,7 @@ import * as utils from './src/utils.js';
 import { getmouse } from './src/controle.js';
 
 function limparTela() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = "#111111";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -71,6 +72,22 @@ function drawMenu() {
         15,
         "white",
         vec2(3, 3),
+        "start"
+    )
+    utils.drawText(
+        "v0.15",
+        vec2( canvas.width*0.925, canvas.height*0.95),
+        12,
+        "rgba(255,255,255,0.35)",
+        vec2(1, 1),
+        "start"
+    )
+    utils.drawText(
+        "© 2025 Super Careca Man",
+        vec2( canvas.width*0.05, canvas.height*0.95),
+        15,
+        "rgba(255,255,255,0.35)",
+        vec2(1, 1),
         "start"
     )
     

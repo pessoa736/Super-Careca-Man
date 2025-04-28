@@ -175,11 +175,11 @@ class Player {
     }
     remove(){
         const index = players.indexOf(this);
-        if (index === -1) {
-            console.error("Jogador não encontrado para remoção:", this);
+        if (index == -1) {
+            //console.error("Jogador não encontrado para remoção:", this);
             return;
         }
-        players.splice(index, 1);
+        players = []
     }
 }
 
